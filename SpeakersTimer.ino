@@ -26,6 +26,8 @@ uint32_t targetTime;
 
 /*---------------------------------------------------------------------------*/
 
+using namespace Nanaseg;
+
 void setup(void)
 {
     delay(3000);

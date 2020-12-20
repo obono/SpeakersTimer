@@ -28,9 +28,9 @@ PROGMEM static const uint8_t charPattern[] = {
 };
 
 static volatile uint8_t column;
-static volatile uint8_t data[DATA_SIZE];
+static volatile uint8_t data[Nanaseg::DATA_SIZE];
 
-void initialize(void)
+void Nanaseg::initialize(void)
 {
     DDRD  |= 0b11111110; // Set pin1~7 as output
     DDRB  |= 0b00011111; // Set pin8~12 as output
@@ -46,17 +46,17 @@ void initialize(void)
     bitSet(TIMSK1, OCIE1A); // enable interrupt
 }
 
-void setDigitByChar(int8_t pos, char c)
+void Nanaseg::setDigitByChar(int8_t pos, char c)
 {
     if (pos >= 0 && pos < DIGITS) data[pos] = getPatternByChar(c);
 }
 
-void setDigitByPattern(int8_t pos, uint8_t pattern)
+void Nanaseg::setDigitByPattern(int8_t pos, uint8_t pattern)
 {
     if (pos >= 0 && pos <= DATA_SIZE) data[pos] = pattern;
 }
 
-void setDigitsByNumber(uint16_t number, int8_t digits)
+void Nanaseg::setDigitsByNumber(uint16_t number, int8_t digits)
 {
     for (int8_t pos = DIGITS - 1; pos >= 0; pos--) {
         data[pos] = (number > 0 || digits > 0) ? getPattern(number % 10) : 0;
@@ -65,7 +65,7 @@ void setDigitsByNumber(uint16_t number, int8_t digits)
     }
 }
 
-void setDigitsByString(char *pStr)
+void Nanaseg::setDigitsByString(char *pStr)
 {
     for (int8_t pos = 0; pos < DIGITS; pos++) {
         char c = *pStr++;
@@ -73,13 +73,13 @@ void setDigitsByString(char *pStr)
     }
 }
 
-void setPlayMode(PLAY_MODE_T playMode)
+void Nanaseg::setPlayMode(PLAY_MODE_T playMode)
 {
     data[MISC_IDX] = data[MISC_IDX] & 0b11111100 | (playMode & 0b00000011);
 }
 
 
-void setDelimiter(bool isOn)
+void Nanaseg::setDelimiter(bool isOn)
 {
     if (isOn) {
         bitSet(data[MISC_IDX], 4);
@@ -88,7 +88,7 @@ void setDelimiter(bool isOn)
     }
 }
 
-void setAllByRawData(uint8_t *p)
+void Nanaseg::setAllByRawData(uint8_t *p)
 {
     memcpy((void *)data, p, DATA_SIZE);
 }
@@ -98,5 +98,5 @@ ISR(TIMER1_COMPA_vect)
     PORTB &= 0b11100000;
     PORTD = PORTD & 0b00000001 | (~data[column] << 1);
     bitSet(PORTB, column);
-    column = (column + 1) % DATA_SIZE;
+    column = (column + 1) % Nanaseg::DATA_SIZE;
 }
