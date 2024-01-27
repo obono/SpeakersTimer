@@ -17,13 +17,13 @@
 
 ## Hardware
 
-### Parts
+### Components
 
-* [Arduino Pro Mini 3,3V 8MHz](https://www.switch-science.com/catalog/876/) (or compatible product)
+* [Arduino Pro Mini 3.3V 8MHz](https://www.switch-science.com/catalog/876/) (or compatible product)
 * [4 digits, 7-segment display module](https://www.aitendo.com/product/5361)
 * [IR receiver module](https://akizukidenshi.com/catalog/g/gI-04659/)
 * [IR remote controller](https://www.aitendo.com/product/19084)
-* 220&ohm; register &times; 7
+* 220&ohm; resistor &times; 7
 * A switch
 * A battery (3.3V)
 * Wires, connectors, etc...
